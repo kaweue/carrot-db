@@ -1,0 +1,3 @@
+add_definitions(-D_TURN_OFF_PLATFORM_STRING)
+
+add_subdirectory(functional)
