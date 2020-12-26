@@ -12,4 +12,4 @@ RUN git submodule update --init && git -C vendor/cpprestsdk submodule update --i
 
 RUN mkdir -p build && cd build && cmake ../
 
-RUN make -j 2 -C build/ && make -j 2 -C build/ test
+RUN make -C build/ && make -C build/ test
