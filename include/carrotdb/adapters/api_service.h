@@ -3,9 +3,9 @@
 #include <memory>
 
 #include "cpprest/http_msg.h"
-#include "carrotdb/service.h"
+#include "carrotdb/adapters/service.h"
 
-namespace service
+namespace adapters
 {
 
     class api : public service
@@ -21,4 +21,4 @@ namespace service
         void rest_delete(web::http::http_request request);
     };
 
-} // namespace service
+} // namespace adapters

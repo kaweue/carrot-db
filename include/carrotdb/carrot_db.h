@@ -1,6 +1,6 @@
 #pragma once
 
-#include "carrotdb/api_service.h"
+#include "carrotdb/adapters/api_service.h"
 
 #include "cpprest/http_listener.h"
 #include "cpprest/http_client.h"
@@ -19,7 +19,7 @@ namespace app
 
     private:
         web::http::experimental::listener::http_listener m_listner;
-        service::api m_api;
+        adapters::api m_api;
     };
 
 } // namespace app

@@ -2,9 +2,9 @@
 #include <memory>
 #include <iostream>
 
-#include "carrotdb/request.h"
+#include "carrotdb/adapters/request.h"
 
-namespace service
+namespace adapters
 {
     class service
     {
@@ -45,4 +45,4 @@ namespace service
     private:
         std::shared_ptr<service> m_next_service;
     };
-} // namespace service
+} // namespace adapters

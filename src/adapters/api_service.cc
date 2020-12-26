@@ -1,8 +1,8 @@
 #include <memory>
 
-#include "carrotdb/api_service.h"
+#include "carrotdb/adapters/api_service.h"
 
-namespace service
+namespace adapters
 {
 
     api::api() {}
@@ -42,4 +42,4 @@ namespace service
         proces_next(std::move(request));
         http_request.reply(web::http::status_codes::OK);
     }
-} // namespace service
+} // namespace adapters

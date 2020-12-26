@@ -1,6 +1,6 @@
 #pragma once
 
-namespace service
+namespace adapters
 {
     class put_request
     {
