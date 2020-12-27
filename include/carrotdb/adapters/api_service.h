@@ -3,22 +3,27 @@
 #include <memory>
 
 #include "cpprest/http_msg.h"
-#include "carrotdb/adapters/service.h"
 
 namespace adapters
 {
 
-    class api : public service
+    class request_handle
+    {
+    public:
+        virtual void handle(web::http::http_request request) = 0;
+    };
+
+    class api
     {
     public:
         api();
-        api(std::shared_ptr<service> next_service);
+        api(std::map<web::http::method, std::shared_ptr<adapters::request_handle>> handlers);
         ~api();
 
-        void rest_get(web::http::http_request request);
-        void rest_put(web::http::http_request request);
-        void rest_post(web::http::http_request request);
-        void rest_delete(web::http::http_request request);
+        void rest_handle(web::http::http_request http_request);
+
+    private:
+        std::map<web::http::method, std::shared_ptr<adapters::request_handle>> handlers;
     };
 
 } // namespace adapters

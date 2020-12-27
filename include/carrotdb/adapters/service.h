@@ -22,11 +22,6 @@ namespace adapters
             };
         }
 
-        virtual void handle(get_request &&request)
-        {
-            proces_next(std::move(request));
-        };
-
         virtual void handle(put_request &&request)
         {
             proces_next(std::move(request));

@@ -29,16 +29,6 @@ namespace
         std::unique_ptr<app::carrot_db> carrot_db;
     };
 
-    TEST_F(rest_test, post)
-    {
-        auto response = client->request(http::methods::POST, "/");
-        response.then([&](http::http_response response) {
-                    EXPECT_EQ(response.status_code(), web::http::status_codes::OK);
-                    return response.body().close();
-                })
-            .wait();
-    }
-
     TEST_F(rest_test, get)
     {
         auto response = client->request(http::methods::GET, "/");
@@ -49,11 +39,21 @@ namespace
             .wait();
     }
 
+    TEST_F(rest_test, post)
+    {
+        auto response = client->request(http::methods::POST, "/");
+        response.then([&](http::http_response response) {
+                    EXPECT_EQ(response.status_code(), web::http::status_codes::NotImplemented);
+                    return response.body().close();
+                })
+            .wait();
+    }
+
     TEST_F(rest_test, delete_request)
     {
         auto response = client->request(http::methods::DEL, "/");
         response.then([&](http::http_response response) {
-                    EXPECT_EQ(response.status_code(), web::http::status_codes::OK);
+                    EXPECT_EQ(response.status_code(), web::http::status_codes::NotImplemented);
                     return response.body().close();
                 })
             .wait();
@@ -63,7 +63,7 @@ namespace
     {
         auto response = client->request(http::methods::PUT, "/");
         response.then([&](http::http_response response) {
-                    EXPECT_EQ(response.status_code(), web::http::status_codes::OK);
+                    EXPECT_EQ(response.status_code(), web::http::status_codes::NotImplemented);
                     return response.body().close();
                 })
             .wait();

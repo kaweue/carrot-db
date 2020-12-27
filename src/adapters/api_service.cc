@@ -7,7 +7,7 @@ namespace adapters
 
     api::api() {}
 
-    api::api(std::shared_ptr<service> next_service) : service(next_service)
+    api::api(std::map<web::http::method, std::shared_ptr<adapters::request_handle>> handlers) : handlers(handlers)
     {
     }
 
@@ -15,30 +15,15 @@ namespace adapters
     {
     }
 
-    void api::rest_get(web::http::http_request http_request)
+    void api::rest_handle(web::http::http_request http_request)
     {
-        auto request = get_request(http_request);
-        proces_next(std::move(request));
+        auto handler = handlers.find(http_request.method());
+        if (handler == handlers.end())
+        {
+            http_request.reply(web::http::status_codes::NotImplemented);
+            return;
+        }
+        handler->second->handle(http_request);
     }
 
-    void api::rest_put(web::http::http_request http_request)
-    {
-        auto request = put_request();
-        proces_next(std::move(request));
-        http_request.reply(web::http::status_codes::OK);
-    }
-
-    void api::rest_post(web::http::http_request http_request)
-    {
-        auto request = post_request();
-        proces_next(std::move(request));
-        http_request.reply(web::http::status_codes::OK);
-    }
-
-    void api::rest_delete(web::http::http_request http_request)
-    {
-        auto request = delete_request();
-        proces_next(std::move(request));
-        http_request.reply(web::http::status_codes::OK);
-    }
 } // namespace adapters
