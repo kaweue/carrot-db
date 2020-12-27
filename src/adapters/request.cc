@@ -6,7 +6,7 @@ namespace adapters
     {
     }
 
-    get_request_handle::get_request_handle(std::shared_ptr<ports::key> key_port) : key_port(key_port)
+    get_request_handle::get_request_handle(std::shared_ptr<ports::keys> keys) : key_port(keys)
     {
     }
 
@@ -24,7 +24,7 @@ namespace adapters
     {
     }
 
-    post_request_handle::post_request_handle(std::shared_ptr<ports::key> key_port)
+    post_request_handle::post_request_handle(std::shared_ptr<ports::keys> keys) : keys(keys)
     {
     }
 
@@ -35,6 +35,11 @@ namespace adapters
         {
             return false;
         }
+        if (!keys)
+        {
+            return true;
+        }
+        keys->set(model::key(path));
 
         return true;
     }
