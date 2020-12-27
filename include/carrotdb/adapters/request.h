@@ -9,16 +9,16 @@
 
 namespace adapters
 {
-    class put_request
+    class post_request_handle : public request_handle
     {
-    };
+    public:
+        post_request_handle();
+        explicit post_request_handle(std::shared_ptr<ports::key> key_port);
+        void handle(web::http::http_request request) override;
+        web::http::method method() override;
 
-    class post_request
-    {
-    };
-
-    class delete_request
-    {
+    private:
+        bool valid(const web::http::http_request &request) const;
     };
 
     class get_request_handle : public request_handle
@@ -27,8 +27,18 @@ namespace adapters
         get_request_handle();
         explicit get_request_handle(std::shared_ptr<ports::key> key_port);
         void handle(web::http::http_request request) override;
+        web::http::method method() override;
 
     private:
         std::shared_ptr<ports::key> key_port;
     };
+
+    class delete_request
+    {
+    };
+
+    class put_request
+    {
+    };
+
 } // namespace adapters

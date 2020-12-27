@@ -31,7 +31,7 @@ namespace
 
     TEST_F(rest_test, get)
     {
-        auto response = client->request(http::methods::GET, "/");
+        auto response = client->request(http::methods::GET);
         response.then([&](http::http_response response) {
                     EXPECT_EQ(response.status_code(), web::http::status_codes::OK);
                     return response.body().close();
@@ -41,9 +41,9 @@ namespace
 
     TEST_F(rest_test, post)
     {
-        auto response = client->request(http::methods::POST, "/");
+        auto response = client->request(http::methods::POST, "my-key");
         response.then([&](http::http_response response) {
-                    EXPECT_EQ(response.status_code(), web::http::status_codes::NotImplemented);
+                    EXPECT_EQ(response.status_code(), web::http::status_codes::Created);
                     return response.body().close();
                 })
             .wait();
@@ -51,7 +51,7 @@ namespace
 
     TEST_F(rest_test, delete_request)
     {
-        auto response = client->request(http::methods::DEL, "/");
+        auto response = client->request(http::methods::DEL);
         response.then([&](http::http_response response) {
                     EXPECT_EQ(response.status_code(), web::http::status_codes::NotImplemented);
                     return response.body().close();
@@ -61,7 +61,7 @@ namespace
 
     TEST_F(rest_test, put)
     {
-        auto response = client->request(http::methods::PUT, "/");
+        auto response = client->request(http::methods::PUT);
         response.then([&](http::http_response response) {
                     EXPECT_EQ(response.status_code(), web::http::status_codes::NotImplemented);
                     return response.body().close();

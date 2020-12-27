@@ -7,8 +7,12 @@ namespace adapters
 
     api::api() {}
 
-    api::api(std::map<web::http::method, std::shared_ptr<adapters::request_handle>> handlers) : handlers(handlers)
+    api::api(std::initializer_list<std::shared_ptr<adapters::request_handle>> handlers)
     {
+        for (auto handler : handlers)
+        {
+            this->handlers[handler->method()] = handler;
+        }
     }
 
     api::~api()

@@ -14,22 +14,41 @@ namespace
             request_cnt++;
         };
 
+        web::http::method method() override
+        {
+            return web::http::methods::POST;
+        }
+
         int request_cnt;
     };
 
     class api_service_test : public testing::Test
     {
+    protected:
+        void SetUp() override
+        {
+            request_handle = std::make_shared<request_handle_mock>();
+            api = adapters::api({request_handle});
+        }
+
+        void TearDown() override
+        {
+            request_handle.reset();
+        }
+        std::shared_ptr<request_handle_mock> request_handle;
+        adapters::api api;
     };
 
-    TEST_F(api_service_test, Post)
+    TEST_F(api_service_test, implemented)
     {
-        auto request_handle = std::make_shared<request_handle_mock>();
-        auto handlers = std::map<web::http::method, std::shared_ptr<adapters::request_handle>>{
-            {web::http::methods::POST, request_handle}};
-
-        auto api = adapters::api(handlers);
         api.rest_handle(web::http::http_request(web::http::methods::POST));
         EXPECT_EQ(request_handle->request_cnt, 1);
+    }
+
+    TEST_F(api_service_test, not_implemented)
+    {
+        api.rest_handle(web::http::http_request(web::http::methods::GET));
+        EXPECT_EQ(request_handle->request_cnt, 0);
     }
 
 } // namespace
