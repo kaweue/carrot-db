@@ -36,42 +36,45 @@ namespace
         int delete_cnt;
     };
 
-    TEST(ObjectLiveCycle, SimpleCreate)
+    class api_service_test : public testing::Test
     {
-        auto ns = std::make_shared<next_service_mock>();
-        auto api = std::make_shared<adapters::api>(ns);
-    }
+    protected:
+        void SetUp() override
+        {
+            next_service = std::make_shared<next_service_mock>();
+            api = std::make_shared<adapters::api>(next_service);
+        }
 
-    TEST(REST, Post)
+        void TearDown() override
+        {
+            next_service.reset();
+            api.reset();
+        }
+        std::shared_ptr<next_service_mock> next_service;
+        std::shared_ptr<adapters::api> api;
+    };
+
+    TEST_F(api_service_test, Post)
     {
-        auto ns = std::make_shared<next_service_mock>();
-        auto api = std::make_shared<adapters::api>(ns);
         api->rest_post(web::http::http_request());
-        EXPECT_EQ(ns->post_cnt, 1);
+        EXPECT_EQ(next_service->post_cnt, 1);
     }
 
-    TEST(REST, Get)
+    TEST_F(api_service_test, Get)
     {
-        auto ns = std::make_shared<next_service_mock>();
-        auto api = std::make_shared<adapters::api>(ns);
         api->rest_get(web::http::http_request());
-        EXPECT_EQ(ns->get_cnt, 1);
+        EXPECT_EQ(next_service->get_cnt, 1);
     }
 
-    TEST(REST, Delete)
+    TEST_F(api_service_test, Delete)
     {
-        auto ns = std::make_shared<next_service_mock>();
-        auto api = std::make_shared<adapters::api>(ns);
         api->rest_delete(web::http::http_request());
-        EXPECT_EQ(ns->delete_cnt, 1);
+        EXPECT_EQ(next_service->delete_cnt, 1);
     }
 
-    TEST(REST, Put)
+    TEST_F(api_service_test, Put)
     {
-        auto ns = std::make_shared<next_service_mock>();
-        auto api = std::make_shared<adapters::api>(ns);
         api->rest_put(web::http::http_request());
-        EXPECT_EQ(ns->put_cnt, 1);
+        EXPECT_EQ(next_service->put_cnt, 1);
     }
-
 } // namespace

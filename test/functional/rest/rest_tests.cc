@@ -8,7 +8,7 @@
 namespace
 {
     using namespace web;
-    class reset_test : public testing::Test
+    class rest_test : public testing::Test
     {
     protected:
         void SetUp() override
@@ -29,7 +29,7 @@ namespace
         std::unique_ptr<app::carrot_db> carrot_db;
     };
 
-    TEST_F(reset_test, post)
+    TEST_F(rest_test, post)
     {
         auto response = client->request(http::methods::POST, "/");
         response.then([&](http::http_response response) {
@@ -39,7 +39,7 @@ namespace
             .wait();
     }
 
-    TEST_F(reset_test, get)
+    TEST_F(rest_test, get)
     {
         auto response = client->request(http::methods::GET, "/");
         response.then([&](http::http_response response) {
@@ -49,7 +49,7 @@ namespace
             .wait();
     }
 
-    TEST_F(reset_test, delete_request)
+    TEST_F(rest_test, delete_request)
     {
         auto response = client->request(http::methods::DEL, "/");
         response.then([&](http::http_response response) {
@@ -59,7 +59,7 @@ namespace
             .wait();
     }
 
-    TEST_F(reset_test, put)
+    TEST_F(rest_test, put)
     {
         auto response = client->request(http::methods::PUT, "/");
         response.then([&](http::http_response response) {

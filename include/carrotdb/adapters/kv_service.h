@@ -11,8 +11,12 @@ namespace adapters
     {
     public:
         key_value();
-        key_value(std::shared_ptr<ports::key_value> port);
+        key_value(std::shared_ptr<ports::key> key_port, std::shared_ptr<ports::value> value_port);
         ~key_value();
+        void handle(get_request &&request) override;
+
+    private:
+        std::shared_ptr<ports::key> key_port;
     };
 
 } // namespace adapters

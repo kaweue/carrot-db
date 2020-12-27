@@ -2,7 +2,11 @@
 
 namespace ports
 {
-    class key_value
+    class key
+    {
+    };
+
+    class value
     {
     };
 
