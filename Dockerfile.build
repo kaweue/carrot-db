@@ -10,6 +10,8 @@ WORKDIR /workspace
 
 RUN git submodule update --init && git -C vendor/cpprestsdk submodule update --init
 
-RUN mkdir -p build && cd build && cmake ../
+# Don't build and execute cpprestsdk tests and don't build cpprestsdk examples.
+# Unfortunately it has to be done at this level.
+RUN mkdir -p build && cd build && cmake -DBUILD_TESTS=OFF -DBUILD_EXAMPLES=OFF ../
 
 RUN make -C build/ && make -C build/ test
