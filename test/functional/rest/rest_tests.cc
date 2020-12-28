@@ -31,9 +31,12 @@ namespace
 
     TEST_F(rest_test, get)
     {
-        auto response = client->request(http::methods::GET);
+        //given empty db
+        //when get request is issued
+        auto response = client->request(http::methods::GET, "my-key");
+        //then not found response is issued
         response.then([&](http::http_response response) {
-                    EXPECT_EQ(response.status_code(), web::http::status_codes::OK);
+                    EXPECT_EQ(response.status_code(), web::http::status_codes::NotFound);
                     return response.body().close();
                 })
             .wait();
@@ -64,6 +67,20 @@ namespace
         auto response = client->request(http::methods::PUT);
         response.then([&](http::http_response response) {
                     EXPECT_EQ(response.status_code(), web::http::status_codes::NotImplemented);
+                    return response.body().close();
+                })
+            .wait();
+    }
+
+    TEST_F(rest_test, get_after_post)
+    {
+        //given my-key is created
+        client->request(http::methods::POST, "my-key").wait();
+        //when get request for existing key is issued
+        auto response = client->request(http::methods::GET, "my-key");
+        //then server answers that key exists
+        response.then([&](http::http_response response) {
+                    EXPECT_EQ(response.status_code(), web::http::status_codes::OK);
                     return response.body().close();
                 })
             .wait();

@@ -26,12 +26,12 @@ namespace adapters
     {
     public:
         get_request_handle();
-        explicit get_request_handle(std::shared_ptr<ports::keys> key_port);
+        explicit get_request_handle(std::shared_ptr<ports::keys> keys);
         void handle(web::http::http_request request) override;
         web::http::method method() override;
 
     private:
-        std::shared_ptr<ports::keys> key_port;
+        std::shared_ptr<ports::keys> keys;
     };
 
     class delete_request

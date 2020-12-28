@@ -6,12 +6,27 @@ namespace adapters
     {
     }
 
-    get_request_handle::get_request_handle(std::shared_ptr<ports::keys> keys) : key_port(keys)
+    get_request_handle::get_request_handle(std::shared_ptr<ports::keys> keys) : keys(keys)
     {
     }
 
     void get_request_handle::handle(web::http::http_request request)
     {
+        auto path = request.request_uri().path();
+        if (!keys)
+        {
+            request.reply(web::http::status_codes::OK);
+            return;
+        }
+        try
+        {
+            keys->get(path);
+        }
+        catch (ports::keys::not_found_exception e)
+        {
+            request.reply(web::http::status_codes::NotFound);
+            return;
+        }
         request.reply(web::http::status_codes::OK);
     }
 

@@ -1,1 +1,2 @@
 add_subdirectory(rest)
+add_subdirectory(performance)
