@@ -1,5 +1,5 @@
 #include "cpprest/http_client.h"
-#include "carrotdb/carrot_db.h"
+#include "carrotdb/app/carrot_db.h"
 
 #include "gtest/gtest.h"
 
@@ -15,7 +15,7 @@ namespace
     protected:
         void SetUp() override
         {
-            auto uri = "http://0.0.0.0:34567/";
+            auto uri = "http://0.0.0.0:5800/";
             carrot_db = std::make_unique<app::carrot_db>(uri);
             carrot_db->start();
             client = std::make_unique<http::client::http_client>(http::uri(uri));

@@ -1,14 +1,14 @@
-#include "carrotdb/ports/key_value.h"
+#include "carrotdb/adapters/key_db.h"
 
-namespace ports
+namespace adapters
 {
-    void keys_impl::set(const model::key &key)
+    void key_db::set(const model::key &key)
     {
         std::unique_lock lock(mutex);
         keys[key.id()] = key;
     }
 
-    model::key keys_impl::get(const std::string &id)
+    model::key key_db::get(const std::string &id)
     {
         std::shared_lock lock(mutex);
         if (keys.find(id) == keys.end())
@@ -18,9 +18,9 @@ namespace ports
         return keys[id];
     }
 
-    void keys_impl::del(const std::string &id)
+    void key_db::del(const std::string &id)
     {
         std::unique_lock lock(mutex);
         keys.erase(keys.find(id));
     }
-} // namespace ports
+} // namespace adapters

@@ -13,7 +13,7 @@ namespace app
     class carrot_db
     {
     public:
-        explicit carrot_db(std::string uri);
+        explicit carrot_db(const std::string &uri);
         int start();
         int stop();
 
