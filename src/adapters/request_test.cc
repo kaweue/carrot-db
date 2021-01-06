@@ -1,16 +1,15 @@
-#include <memory>
-
 #include "carrotdb/adapters/request.h"
 
 #include "gtest/gtest.h"
 
+#include <memory>
+
 namespace
 {
-
-    class keys_port_mock : public ports::key_repository
+    class key_srv_mock : public ports::interfaces::key_create_service, public ports::interfaces::key_get_service
     {
     public:
-        void set(const model::key &key) override { keys[key.id()] = key; };
+        void create(const model::key &key) override { keys[key.path()] = key; };
         model::key get(const std::string &id) override
         {
             if (keys.find(id) == keys.end())
@@ -19,9 +18,7 @@ namespace
             }
             return keys[id];
         };
-        void del(const std::string &id) override { keys.erase(keys.find(id)); };
 
-    private:
         std::map<std::string, model::key> keys;
     };
 
@@ -30,34 +27,35 @@ namespace
     protected:
         void SetUp() override
         {
-            keys_port = std::make_shared<keys_port_mock>();
+            service = std::make_shared<key_srv_mock>();
             request = web::http::http_request();
         }
-        std::shared_ptr<keys_port_mock> keys_port;
+        std::shared_ptr<key_srv_mock> service;
         web::http::http_request request;
     };
 
     TEST_F(request_test, post_with_path)
     {
         request.set_request_uri("my-key");
-        adapters::post_request_handle(keys_port).handle(request);
+        adapters::post_request_handle(service).handle(request);
         EXPECT_EQ(request.get_response().get().status_code(), web::http::status_codes::Created);
-        EXPECT_EQ(keys_port->get("my-key").id(), "my-key");
+        ASSERT_TRUE(service->keys.find("my-key") != service->keys.end());
+        EXPECT_EQ(service->keys["my-key"].path(), "my-key");
     }
 
     TEST_F(request_test, post_without_path)
     {
-        adapters::post_request_handle(keys_port).handle(request);
+        adapters::post_request_handle(service).handle(request);
         EXPECT_EQ(request.get_response().get().status_code(), web::http::status_codes::BadRequest);
     }
 
     TEST_F(request_test, get_for_existing_key)
     {
         // given a key with id exists
-        keys_port->set(model::key("my-key"));
+        service->create(model::key("my-key"));
         // when get request is issues
         request.set_request_uri("my-key");
-        adapters::get_request_handle(keys_port).handle(request);
+        adapters::get_request_handle(service).handle(request);
         // then get response status is ok
         EXPECT_EQ(request.get_response().get().status_code(), web::http::status_codes::OK);
     }
@@ -67,7 +65,7 @@ namespace
         // given a key with id doesn't exist
         // when get request is issues
         request.set_request_uri("my-key");
-        adapters::get_request_handle(keys_port).handle(request);
+        adapters::get_request_handle(service).handle(request);
         // then get response status is ok
         EXPECT_EQ(request.get_response().get().status_code(), web::http::status_codes::NotFound);
     }

@@ -8,10 +8,12 @@ namespace app
     using namespace web;
     carrot_db::carrot_db(const std::string &uri) : m_listner(web::http::uri(uri))
     {
-        auto keys = std::make_shared<adapters::key_db>();
+        auto keys_db = std::make_shared<adapters::key_db>();
+        auto key_get = std::make_shared<ports::impl::key_get_service>(keys_db);
+        auto key_create = std::make_shared<ports::impl::key_create_service>(keys_db);
         m_api = adapters::api({
-            std::make_shared<adapters::get_request_handle>(keys),
-            std::make_shared<adapters::post_request_handle>(keys),
+            std::make_shared<adapters::get_request_handle>(key_get),
+            std::make_shared<adapters::post_request_handle>(key_create),
         });
     }
 

@@ -6,7 +6,7 @@ namespace adapters
     {
     }
 
-    get_request_handle::get_request_handle(std::shared_ptr<ports::key_repository> keys) : keys(keys)
+    get_request_handle::get_request_handle(std::shared_ptr<ports::interfaces::key_get_service> keys) : keys(keys)
     {
     }
 
@@ -39,7 +39,7 @@ namespace adapters
     {
     }
 
-    post_request_handle::post_request_handle(std::shared_ptr<ports::key_repository> keys) : keys(keys)
+    post_request_handle::post_request_handle(std::shared_ptr<ports::interfaces::key_create_service> keys) : keys(keys)
     {
     }
 
@@ -54,7 +54,7 @@ namespace adapters
         {
             return true;
         }
-        keys->set(model::key(path));
+        keys->create(model::key(path));
 
         return true;
     }

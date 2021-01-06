@@ -5,22 +5,22 @@ namespace adapters
     void key_db::set(const model::key &key)
     {
         std::unique_lock lock(mutex);
-        keys[key.id()] = key;
+        keys[key.path()] = key;
     }
 
-    model::key key_db::get(const std::string &id)
+    model::key key_db::get(const std::string &path)
     {
         std::shared_lock lock(mutex);
-        if (keys.find(id) == keys.end())
+        if (keys.find(path) == keys.end())
         {
             throw ports::key_repository::not_found_exception();
         }
-        return keys[id];
+        return keys[path];
     }
 
-    void key_db::del(const std::string &id)
+    void key_db::del(const std::string &path)
     {
         std::unique_lock lock(mutex);
-        keys.erase(keys.find(id));
+        keys.erase(keys.find(path));
     }
 } // namespace adapters

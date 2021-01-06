@@ -1,22 +1,30 @@
 #pragma once
 
-#include <string>
 #include "carrotdb/model/value.h"
+
+#include <string>
+
 namespace model
 {
     class key
     {
     public:
         key(){};
-        key(const std::string &id) : _id(id){};
-        key(const std::string &id, const value &value) : _id(id), _value(value){};
+        key(const std::string &path) : _path(path){};
+        key(const std::string &path, const value &value) : _path(path), _value(value){};
 
-        std::string id() const
+        std::string path() const
         {
-            return _id;
+            return _path;
+        };
+
+        value get_value() const
+        {
+            return _value;
         };
 
     private:
+        std::string _path;
         std::string _id;
         value _value;
     };

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <carrotdb/model/key.h>
+#include "carrotdb/model/key.h"
 
 #include <string>
 
@@ -16,7 +16,7 @@ namespace ports
         };
 
         virtual void set(const model::key &key) = 0;
-        virtual model::key get(const std::string &id) = 0;
+        virtual model::key get(const std::string &path) = 0;
         virtual void del(const std::string &id) = 0;
     };
 
