@@ -1,7 +1,7 @@
 #pragma once
 
 #include <carrotdb/model/key.h>
-#include <carrotdb/ports/key_value.h>
+#include <carrotdb/ports/key_repository.h>
 
 #include <string>
 #include <shared_mutex>
@@ -9,7 +9,7 @@
 
 namespace adapters
 {
-    class key_db : public ports::keys
+    class key_db : public ports::key_repository
     {
     public:
         void set(const model::key &key);

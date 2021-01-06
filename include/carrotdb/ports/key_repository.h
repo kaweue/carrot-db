@@ -8,7 +8,7 @@
 
 namespace ports
 {
-    class keys
+    class key_repository
     {
     public:
         class not_found_exception : public std::exception

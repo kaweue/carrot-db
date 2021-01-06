@@ -13,7 +13,7 @@ namespace adapters
         std::shared_lock lock(mutex);
         if (keys.find(id) == keys.end())
         {
-            throw ports::keys::not_found_exception();
+            throw ports::key_repository::not_found_exception();
         }
         return keys[id];
     }

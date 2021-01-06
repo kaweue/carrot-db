@@ -6,7 +6,7 @@ namespace adapters
     {
     }
 
-    get_request_handle::get_request_handle(std::shared_ptr<ports::keys> keys) : keys(keys)
+    get_request_handle::get_request_handle(std::shared_ptr<ports::key_repository> keys) : keys(keys)
     {
     }
 
@@ -22,7 +22,7 @@ namespace adapters
         {
             keys->get(path);
         }
-        catch (ports::keys::not_found_exception e)
+        catch (ports::key_repository::not_found_exception e)
         {
             request.reply(web::http::status_codes::NotFound);
             return;
@@ -39,7 +39,7 @@ namespace adapters
     {
     }
 
-    post_request_handle::post_request_handle(std::shared_ptr<ports::keys> keys) : keys(keys)
+    post_request_handle::post_request_handle(std::shared_ptr<ports::key_repository> keys) : keys(keys)
     {
     }
 

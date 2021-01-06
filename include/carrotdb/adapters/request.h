@@ -1,6 +1,6 @@
 #pragma once
 
-#include "carrotdb/ports/key_value.h"
+#include "carrotdb/ports/key_repository.h"
 #include "carrotdb/adapters/api_service.h"
 #include "cpprest/http_msg.h"
 
@@ -13,25 +13,25 @@ namespace adapters
     {
     public:
         post_request_handle();
-        explicit post_request_handle(std::shared_ptr<ports::keys> keys);
+        explicit post_request_handle(std::shared_ptr<ports::key_repository> keys);
         void handle(web::http::http_request request) override;
         web::http::method method() override;
 
     private:
         bool valid(const web::http::http_request &request) const;
-        std::shared_ptr<ports::keys> keys;
+        std::shared_ptr<ports::key_repository> keys;
     };
 
     class get_request_handle : public request_handle
     {
     public:
         get_request_handle();
-        explicit get_request_handle(std::shared_ptr<ports::keys> keys);
+        explicit get_request_handle(std::shared_ptr<ports::key_repository> keys);
         void handle(web::http::http_request request) override;
         web::http::method method() override;
 
     private:
-        std::shared_ptr<ports::keys> keys;
+        std::shared_ptr<ports::key_repository> keys;
     };
 
     class delete_request

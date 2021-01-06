@@ -1,7 +1,7 @@
 #include "carrotdb/app/carrot_db.h"
 #include "carrotdb/adapters/request.h"
 #include "carrotdb/adapters/key_db.h"
-#include "carrotdb/ports/key_value.h"
+#include "carrotdb/ports/key_repository.h"
 
 namespace app
 {

@@ -7,7 +7,7 @@
 namespace
 {
 
-    class keys_port_mock : public ports::keys
+    class keys_port_mock : public ports::key_repository
     {
     public:
         void set(const model::key &key) override { keys[key.id()] = key; };
@@ -15,7 +15,7 @@ namespace
         {
             if (keys.find(id) == keys.end())
             {
-                throw ports::keys::not_found_exception();
+                throw ports::key_repository::not_found_exception();
             }
             return keys[id];
         };
