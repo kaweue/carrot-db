@@ -3,8 +3,6 @@
 #include <carrotdb/model/key.h>
 
 #include <string>
-#include <shared_mutex>
-#include <map>
 
 namespace ports
 {

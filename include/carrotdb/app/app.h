@@ -11,6 +11,6 @@ namespace app
         void run();
 
     private:
-        carrot_db carrot_db;
+        carrot_db _carrot_db;
     };
 } // namespace app
