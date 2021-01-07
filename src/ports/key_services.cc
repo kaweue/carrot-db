@@ -13,9 +13,9 @@ namespace ports
 
         key_get_service::key_get_service(std::shared_ptr<ports::key_repository> key_repository) : key_repository(key_repository){};
 
-        model::key key_get_service::get(const std::string &id)
+        model::key key_get_service::get(const std::string &path)
         {
-            return key_repository->get(id);
+            return key_repository->get(path);
         }
 
     } // namespace impl

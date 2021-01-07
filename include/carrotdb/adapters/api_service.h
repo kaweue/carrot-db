@@ -12,6 +12,7 @@ namespace adapters
     public:
         virtual web::http::method method() = 0;
         virtual void handle(web::http::http_request request) = 0;
+        virtual ~request_handle() = default;
     };
 
     class api

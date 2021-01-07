@@ -52,6 +52,16 @@ namespace
             .wait();
     }
 
+    TEST_F(rest_test, post_with_body)
+    {
+        auto response = client->request(http::methods::POST, "my-key", "", "stored value");
+        response.then([&](http::http_response response) {
+                    EXPECT_EQ(response.status_code(), web::http::status_codes::Created);
+                    return response.body().close();
+                })
+            .wait();
+    }
+
     TEST_F(rest_test, delete_request)
     {
         auto response = client->request(http::methods::DEL);
@@ -83,6 +93,26 @@ namespace
                     EXPECT_EQ(response.status_code(), web::http::status_codes::OK);
                     return response.body().close();
                 })
+            .wait();
+    }
+
+    TEST_F(rest_test, get_after_post_with_body)
+    {
+        //given my-key with content is created
+        const std::string content("content");
+        client->request(http::methods::POST, "my-key", content.c_str()).wait();
+        //when get request for existing key is issued
+        auto response = client->request(http::methods::GET, "my-key");
+        //then server answers that key exists with correct value
+        concurrency::streams::container_buffer<std::string> body;
+        response.then([&](http::http_response response) {
+                    EXPECT_EQ(response.status_code(), web::http::status_codes::OK);
+                    return response.body().read_to_end(body);
+                })
+            .then([&](size_t response_length) {
+                EXPECT_EQ(response_length, content.length());
+                EXPECT_EQ(body.collection(), content);
+            })
             .wait();
     }
 

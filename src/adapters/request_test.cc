@@ -43,6 +43,19 @@ namespace
         EXPECT_EQ(service->keys["my-key"].path(), "my-key");
     }
 
+    TEST_F(request_test, post_with_path_and_body)
+    {
+        // given request with path and body
+        request.set_request_uri("my-key");
+        request.set_body("request body");
+        // when post handle is invoked
+        adapters::post_request_handle(service).handle(request);
+        // then key with value is stored in the repository
+        EXPECT_EQ(request.get_response().get().status_code(), web::http::status_codes::Created);
+        ASSERT_TRUE(service->keys.find("my-key") != service->keys.end());
+        EXPECT_EQ(service->keys["my-key"].get_value().get_content(), "request body");
+    }
+
     TEST_F(request_test, post_without_path)
     {
         adapters::post_request_handle(service).handle(request);
@@ -58,6 +71,18 @@ namespace
         adapters::get_request_handle(service).handle(request);
         // then get response status is ok
         EXPECT_EQ(request.get_response().get().status_code(), web::http::status_codes::OK);
+    }
+
+    TEST_F(request_test, get_for_existing_key_with_body)
+    {
+        // given a key with value exists
+        service->create(model::key("my-key", model::value("", "stored value")));
+        // when get request is issues
+        request.set_request_uri("my-key");
+        adapters::get_request_handle(service).handle(request);
+        // then get response body has "stored value"
+        ASSERT_EQ(request.get_response().get().body().is_valid(), true);
+        EXPECT_EQ(request.get_response().get().extract_string().get(), "stored value");
     }
 
     TEST_F(request_test, get_for_nonexisting_key)

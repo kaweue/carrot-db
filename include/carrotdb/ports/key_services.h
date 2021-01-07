@@ -40,7 +40,7 @@ namespace ports
         {
         public:
             explicit key_get_service(std::shared_ptr<ports::key_repository> key_repository);
-            model::key get(const std::string &id) override;
+            model::key get(const std::string &path) override;
 
         private:
             std::shared_ptr<ports::key_repository> key_repository;

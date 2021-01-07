@@ -13,7 +13,6 @@ namespace adapters
     class post_request_handle : public request_handle
     {
     public:
-        post_request_handle();
         explicit post_request_handle(std::shared_ptr<ports::interfaces::key_create_service> keys);
         void handle(web::http::http_request request) override;
         web::http::method method() override;
@@ -21,18 +20,19 @@ namespace adapters
     private:
         bool valid(const web::http::http_request &request) const;
         std::shared_ptr<ports::interfaces::key_create_service> keys;
+        std::string retrive_request_body(const web::http::http_request &request) const;
     };
 
     class get_request_handle : public request_handle
     {
     public:
-        get_request_handle();
         explicit get_request_handle(std::shared_ptr<ports::interfaces::key_get_service> keys);
         void handle(web::http::http_request request) override;
         web::http::method method() override;
 
     private:
         std::shared_ptr<ports::interfaces::key_get_service> keys;
+        void reply_for_request(const web::http::http_request &request) const;
     };
 
     class delete_request
