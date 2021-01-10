@@ -1,5 +1,8 @@
 #pragma once
 
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
 #include <string>
 
 namespace model
@@ -8,11 +11,11 @@ namespace model
     {
     public:
         value(){};
-        value(const std::string &id, const std::string &content) : _id(id), _content(content){};
+        value(const std::string &content) : _id(boost::uuids::random_generator()()), _content(content){};
 
         std::string id() const
         {
-            return _id;
+            return boost::uuids::to_string(_id);
         };
 
         std::string get_content() const
@@ -21,7 +24,7 @@ namespace model
         };
 
     private:
-        std::string _id;
+        boost::uuids::uuid _id;
         std::string _content;
     };
 } // namespace model

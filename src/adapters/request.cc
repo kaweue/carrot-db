@@ -12,7 +12,7 @@ namespace adapters
         {
             reply_for_request(request);
         }
-        catch (ports::key_repository::not_found_exception e)
+        catch (ports::interfaces::not_found e)
         {
             request.reply(web::http::status_codes::NotFound);
         }
@@ -21,8 +21,8 @@ namespace adapters
     void get_request_handle::reply_for_request(const web::http::http_request &request) const
     {
         auto path = request.request_uri().path();
-        auto key = keys->get(path);
-        request.reply(web::http::status_codes::OK, key.get_value().get_content());
+        auto kv = keys->get(path);
+        request.reply(web::http::status_codes::OK, kv.get_value().get_content());
     }
 
     web::http::method get_request_handle::method()
@@ -52,11 +52,11 @@ namespace adapters
             request.reply(web::http::status_codes::BadRequest);
             return;
         }
-
+        auto path = request.request_uri().path();
         auto content = retrive_request_body(request);
-        model::value value("", content);
+        model::value value(content);
 
-        keys->create(model::key(request.request_uri().path(), value));
+        keys->create(model::key(path, value));
         request.reply(web::http::status_codes::Created);
     }
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "carrotdb/ports/key_repository.h"
+#include "carrotdb/ports/repository.h"
 #include "carrotdb/ports/key_services.h"
 #include "carrotdb/adapters/api_service.h"
 #include "cpprest/http_msg.h"

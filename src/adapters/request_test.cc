@@ -14,7 +14,7 @@ namespace
         {
             if (keys.find(id) == keys.end())
             {
-                throw ports::key_repository::not_found_exception();
+                throw ports::interfaces::not_found();
             }
             return keys[id];
         };
@@ -76,7 +76,7 @@ namespace
     TEST_F(request_test, get_for_existing_key_with_body)
     {
         // given a key with value exists
-        service->create(model::key("my-key", model::value("", "stored value")));
+        service->create(model::key("my-key", model::value("stored value")));
         // when get request is issues
         request.set_request_uri("my-key");
         adapters::get_request_handle(service).handle(request);

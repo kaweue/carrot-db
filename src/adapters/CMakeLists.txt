@@ -1,7 +1,7 @@
 
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR} ${CARROT_DB_INCLUDE_DIR})
 
-add_library(adapters STATIC api_service.cc request.cc key_db)
+add_library(adapters STATIC api_service.cc request.cc)
 target_link_libraries(adapters cpprest)
 
 # Tests
