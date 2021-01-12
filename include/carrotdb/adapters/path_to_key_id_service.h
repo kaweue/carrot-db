@@ -4,7 +4,10 @@
 #include "carrotdb/ports/path_to_key_id.h"
 
 #include <string>
+#include <map>
 #include <memory>
+#include <shared_mutex>
+
 
 namespace adapters
 {
@@ -14,23 +17,11 @@ namespace adapters
           public ports::interfaces::path_to_key_id
     {
     public:
-        std::string get_key_id(const std::string &path) override
-        {
-            std::shared_lock lock(mutex);
-            if (entries.find(path) == entries.end())
-            {
-                throw ports::interfaces::not_found();
-            }
-            return entries[path];
-        };
-        void created(const model::key &key) override
-        {
-            std::unique_lock lock(mutex);
-            entries[key.path()] = key.id();
-        }
+        std::string get_key_id(const std::string &path) const override;
+        void created(const model::key &key) override;
 
     private:
         std::map<std::string, std::string> entries;
-        std::shared_mutex mutex;
+        mutable std::shared_mutex mutex;
     };
 } // namespace adapters

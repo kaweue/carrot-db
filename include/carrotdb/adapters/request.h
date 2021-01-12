@@ -10,6 +10,15 @@
 
 namespace adapters
 {
+
+    class request_handle
+    {
+    public:
+        virtual web::http::method method() = 0;
+        virtual void handle(web::http::http_request request) = 0;
+        virtual ~request_handle() = default;
+    };
+
     class post_request_handle : public request_handle
     {
     public:

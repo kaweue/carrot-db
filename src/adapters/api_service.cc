@@ -1,6 +1,7 @@
 #include <memory>
 
 #include "carrotdb/adapters/api_service.h"
+#include "carrotdb/adapters/request.h"
 
 namespace adapters
 {

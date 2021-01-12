@@ -1,8 +1,9 @@
-#include <memory>
-
 #include "carrotdb/adapters/api_service.h"
+#include "carrotdb/adapters/request.h"
 
 #include "gtest/gtest.h"
+
+#include <memory>
 
 namespace
 {
