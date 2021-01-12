@@ -11,7 +11,7 @@ namespace ports
         {
         public:
             virtual void set(const T &key) = 0;
-            virtual T get(const std::string &id) = 0;
+            virtual T get(const std::string &id) const = 0;
             virtual void del(const std::string &id) = 0;
         };
 

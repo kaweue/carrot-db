@@ -17,14 +17,14 @@ namespace adapters
             std::unique_lock lock(mutex);
             entries[entry.id()] = entry;
         }
-        T get(const std::string &id) override
+        T get(const std::string &id) const override
         {
             std::shared_lock lock(mutex);
             if (entries.find(id) == entries.end())
             {
                 throw ports::interfaces::not_found();
             }
-            return entries[id];
+            return entries.at(id);
         }
         void del(const std::string &id) override
         {
@@ -34,6 +34,6 @@ namespace adapters
 
     private:
         std::map<std::string, T> entries;
-        std::shared_mutex mutex;
+        mutable std::shared_mutex mutex;
     }; // namespace adapters
 } // namespace adapters
