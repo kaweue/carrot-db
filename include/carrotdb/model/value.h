@@ -11,6 +11,7 @@ namespace model
     {
     public:
         value(){};
+        value(const value&) = default;
         value(const std::string &content) : _id(boost::uuids::random_generator()()), _content(content){};
 
         std::string id() const

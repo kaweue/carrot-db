@@ -22,7 +22,7 @@ namespace adapters
     {
         auto path = request.request_uri().path();
         auto kv = keys->get(path);
-        request.reply(web::http::status_codes::OK, kv.get_value().get_content());
+        request.reply(web::http::status_codes::OK, kv.second.get_content());
     }
 
     web::http::method get_request_handle::method()
@@ -56,7 +56,7 @@ namespace adapters
         auto content = retrive_request_body(request);
         model::value value(content);
 
-        keys->create(model::key(path, value));
+        keys->create(model::key(path, value), std::move(value));
         request.reply(web::http::status_codes::Created);
     }
 

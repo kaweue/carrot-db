@@ -16,8 +16,10 @@ namespace model
         key(){};
         key(const std::string &path)
             : _path(path), _id(boost::uuids::random_generator()()){};
-        key(const std::string &path, const value &value)
-            : _path(path), _value(value), _id(boost::uuids::random_generator()()){};
+        key(const std::string &path, const value & value)
+            : _path(path), _id(boost::uuids::random_generator()()){
+                _value_id = value.id();
+            };
 
         std::string path() const
         {
@@ -29,14 +31,14 @@ namespace model
             return boost::uuids::to_string(_id);
         };
 
-        value get_value() const
+        std::string value_id() const
         {
-            return _value;
+            return _value_id;
         };
 
     private:
         std::string _path;
         boost::uuids::uuid _id;
-        value _value;
+        std::string _value_id;
     };
 } // namespace model

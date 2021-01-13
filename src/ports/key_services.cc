@@ -8,16 +8,15 @@ namespace ports
                                                std::shared_ptr<ports::interfaces::repository<model::value>> value_repository)
             : key_repository(key_repository), value_repository(value_repository){};
 
-        void key_create_service::key_create_service::create(const model::key &key)
+        void key_create_service::key_create_service::create(model::key &&key, model::value &&value)
         {
-            store_key_and_value(key);
+            store_key_and_value(key, value);
             notify_observer(key);
         }
 
-        void key_create_service::store_key_and_value(const model::key &key)
+        void key_create_service::store_key_and_value(const model::key &key, const model::value & value)
         {
             key_repository->set(key);
-            auto value = key.get_value();
             value_repository->set(value);
         }
 
@@ -39,12 +38,12 @@ namespace ports
                                          std::shared_ptr<ports::interfaces::path_to_key_id> path_to_key_id)
             : key_repository(key_repository), value_repository(value_repository), path_to_key_id(path_to_key_id){};
 
-        model::key key_get_service::get(const std::string &path)
+        std::pair<model::key, model::value> key_get_service::get(const std::string &path)
         {
             auto id = path_to_key_id->get_key_id(path);
             auto key = key_repository->get(id);
-            auto value = value_repository->get(key.get_value().id());
-            return model::key(key.path(), key.get_value());
+            auto value = value_repository->get(key.value_id());
+            return std::pair(model::key(key.path(), std::move(value)), std::move(value));
         }
 
     } // namespace impl
