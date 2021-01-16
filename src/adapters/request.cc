@@ -21,8 +21,8 @@ namespace adapters
     void get_request_handle::reply_for_request(const web::http::http_request &request) const
     {
         auto path = request.request_uri().path();
-        auto kv = keys->get(path);
-        request.reply(web::http::status_codes::OK, kv.second.get_content());
+        auto [key, value] = keys->get(path);
+        request.reply(web::http::status_codes::OK, value.get_content());
     }
 
     web::http::method get_request_handle::method()
