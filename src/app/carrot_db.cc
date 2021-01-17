@@ -1,5 +1,6 @@
 #include "carrotdb/app/carrot_db.h"
-#include "carrotdb/adapters/request.h"
+#include "carrotdb/adapters/get_request.h"
+#include "carrotdb/adapters/post_request.h"
 #include "carrotdb/adapters/repository.h"
 #include "carrotdb/adapters/path_to_key_id_service.h"
 
