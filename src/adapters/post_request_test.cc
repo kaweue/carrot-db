@@ -10,7 +10,7 @@ namespace
     class key_srv_mock : public ports::interfaces::key_create_service
     {
     public:
-        void create(model::key &&key, model::value &&value) override { kvs[key.path()] = std::pair(key, value); };
+        void create(model::key &&key, model::value &&value) override { kvs[key.path()] = {key, value}; };
 
         std::map<std::string, std::pair<model::key, model::value>> kvs;
     };

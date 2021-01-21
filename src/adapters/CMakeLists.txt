@@ -6,6 +6,6 @@ target_link_libraries(adapters cpprest)
 
 # Tests
 add_executable(adapters_test api_service_test.cc post_request_test.cc get_request_test.cc)
-target_link_libraries(adapters_test gtest gtest_main adapters)
+target_link_libraries(adapters_test gtest gtest_main adapters model)
 
 add_test(adapters_test adapters_test)

@@ -26,7 +26,7 @@ namespace adapters
         }
         auto path = request.request_uri().path();
         auto content = retrive_request_body(request);
-        model::value value(content);
+        model::value value(std::move(content));
 
         keys->create(model::key(path, value), std::move(value));
         request.reply(web::http::status_codes::Created);

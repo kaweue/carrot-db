@@ -10,19 +10,31 @@ namespace model
     class value
     {
     public:
-        value(){};
-        value(const value&) = default;
-        value(const std::string &content) : _id(boost::uuids::random_generator()()), _content(content){};
+        value(const value &) = default;
+        value &operator=(const value &value) = default;
 
-        std::string id() const
+        value() : _id(boost::uuids::random_generator()()) {}
+
+        explicit value(std::string &&content) : _id(boost::uuids::random_generator()()), _content(std::move(content)) {}
+
+        value &operator=(value &&other)
         {
-            return boost::uuids::to_string(_id);
-        };
+            _id = other._id;
+            _content = std::move(other._content);
+            return *this;
+        }
 
-        std::string get_content() const
+        std::string id() const;
+
+        const std::string &get_content() const
         {
             return _content;
-        };
+        }
+
+        bool empty() const
+        {
+            return _content.empty();
+        }
 
     private:
         boost::uuids::uuid _id;
